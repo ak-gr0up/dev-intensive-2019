@@ -16,12 +16,8 @@ class User(
     companion object Factory{
         fun makeUser(fullName : String) : User {
             val name: List<String>? = fullName.split(" ")
-            var firstName = name?.getOrNull(0)
-            var lastName = name?.getOrNull(1)
-            if (firstName == null)
-                firstName = ""
-            if (lastName == null)
-                lastName = ""
+            val firstName = name?.getOrNull(0)
+            val lastName = name?.getOrNull(1)
             return User(firstName = firstName, lastName = lastName)
 
 

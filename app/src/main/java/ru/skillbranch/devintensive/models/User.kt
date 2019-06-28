@@ -11,14 +11,10 @@ class User(
     var lastVisit : Date? = null,
     var isOnline : Boolean = false){
 
-    val info: String = "Name: $firstName Surname: $lastName"
-
     companion object Factory{
         fun makeUser(fullName : String) : User {
-            val name: List<String>? = fullName.split(" ")
-            val firstName = name?.getOrNull(0)
-            val lastName = name?.getOrNull(1)
-            return User(firstName = firstName, lastName = lastName)
+            val userName = Utils.parseFullName(fullName)
+            return User(firstName = userName.first, lastName = userName.second)
 
 
         }

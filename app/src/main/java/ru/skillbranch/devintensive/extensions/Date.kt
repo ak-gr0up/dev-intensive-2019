@@ -1,4 +1,4 @@
-package ru.skillbranch.devintensive.models.extensions
+package ru.skillbranch.devintensive.extensions
 
 import java.lang.IllegalStateException
 import java.text.SimpleDateFormat

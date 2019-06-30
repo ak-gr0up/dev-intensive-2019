@@ -1,7 +1,7 @@
 package ru.skillbranch.devintensive.models
 import java.util.*
 
-class User(
+data class User(
     val id : String? = null,
     var firstName : String?,
     var lastName : String?,

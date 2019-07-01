@@ -1,8 +1,8 @@
 package ru.skillbranch.devintensive.utils
 
 object Utils {
-    fun parseFullName(userName: String): Pair<String?, String?>{
-        if (userName == "")
+    fun parseFullName(userName: String?): Pair<String?, String?>{
+        if (userName == "" || userName == null)
             return Pair(null, null)
         val name: List<String>? = userName.split(" ")
         val firstName = name?.getOrNull(0)

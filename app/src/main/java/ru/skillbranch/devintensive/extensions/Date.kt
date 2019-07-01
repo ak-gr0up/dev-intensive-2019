@@ -3,7 +3,7 @@ package ru.skillbranch.devintensive.extensions
 import java.lang.IllegalStateException
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
+enum class TimeUnit{SECOND, MINUTE, HOUR, DAY}
 
 
 const val SECOND = 1000L
@@ -19,11 +19,10 @@ fun Date.format(pattern:String="HH:mm:ss dd.MM.yy") : String{
 fun Date.add(value:Int, units:TimeUnit): Date{
     var time = this.time
     time +=when(units){
-        TimeUnit.SECONDS -> value * SECOND
-        TimeUnit.MINUTES -> value * MINUTE
-        TimeUnit.HOURS -> value * HOUR
-        TimeUnit.DAYS -> value * DAY
-        else -> throw IllegalStateException("invalid units")
+        TimeUnit.SECOND -> value * SECOND
+        TimeUnit.MINUTE -> value * MINUTE
+        TimeUnit.HOUR -> value * HOUR
+        TimeUnit.DAY -> value * DAY
     }
     this.time = time
 

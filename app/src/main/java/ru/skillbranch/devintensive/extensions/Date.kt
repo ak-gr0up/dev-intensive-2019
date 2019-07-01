@@ -66,7 +66,7 @@ fun Date.humanizeDiff(dt: Date? = null): String {
     else if (Math.abs(diff) <= 2700){
         val left = Math.abs(diff) % 60
         diff = diff - Sign(diff) * left + (if (left > 45) Sign(diff) * 60 else 0)
-        if((Math.abs(diff) / 60) % 10 == 1.toLong())
+        if((Math.abs(diff) / 60) % 10 == 1.toLong() && (Math.abs(diff) / 600) % 10 != 1.toLong())
             minutes = "минуту"
         else if ((Math.abs(diff) / 60) % 10 == 2.toLong() || (Math.abs(diff) / 60) % 10 == 3.toLong() || (Math.abs(diff) / 60) % 10 == 4.toLong())
             minutes = "минуты"
@@ -76,7 +76,7 @@ fun Date.humanizeDiff(dt: Date? = null): String {
     else if (Math.abs(diff) <= 79200){
         val left = Math.abs(diff) % 3600
         diff = diff - Sign(diff) * left + (if (left > 3585) Sign(diff) * 3600 else 0)
-        if((Math.abs(diff) / 3600) % 10 == 1.toLong())
+        if((Math.abs(diff) / 3600) % 10 == 1.toLong() && (Math.abs(diff) / 36000) % 10 != 1.toLong())
             hours = "час"
         else if ((Math.abs(diff) / 3600) % 10 == 2.toLong() || (Math.abs(diff) / 3600) % 10 == 3.toLong() || (Math.abs(diff) / 3600) % 10 == 4.toLong())
             hours = "часа"
@@ -86,7 +86,7 @@ fun Date.humanizeDiff(dt: Date? = null): String {
     else if (Math.abs(diff) <= 31104000){
         val left = Math.abs(diff) % 86400
         diff = diff - Sign(diff) * left + (if (left > 86385) Sign(diff) * 86400 else 0)
-        if((Math.abs(diff) / 86400) % 10 == 1.toLong())
+        if((Math.abs(diff) / 86400) % 10 == 1.toLong() && (Math.abs(diff) / 864000) % 10 != 1.toLong())
             days = "день"
         else if ((Math.abs(diff) / 86400) % 10 == 2.toLong() || (Math.abs(diff) / 86400) % 10 == 3.toLong() || (Math.abs(diff) / 86400) % 10 == 4.toLong())
             days = "дня"

@@ -1,5 +1,5 @@
 package ru.skillbranch.devintensive.models
-import ru.skillbranch.devintensive.models.User.Builder.*
+import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
 
 data class User(

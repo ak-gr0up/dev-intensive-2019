@@ -1,6 +1,4 @@
-package ru.skillbranch.devintensive.models
-
-import android.service.autofill.Validators.or
+package ru.skillbranch.devintensive.utils
 
 object Utils {
     fun parseFullName(userName: String): Pair<String?, String?>{

@@ -10,7 +10,13 @@ class ImageMessage(
 )
     : BaseMessage(id, from, chat, isIncoming, date) {
         override fun formatMessage(): String{
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            val getOrSend: String =
+                when(isIncoming) {
+                    true -> "получил"
+                    else -> {
+                        "отправил" }}
+            println("${from?.firstName} $getOrSend изображение $image $date")
+            return "${from?.firstName} $getOrSend изображение $image $date"
         }
 
 }

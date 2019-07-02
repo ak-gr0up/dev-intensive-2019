@@ -26,7 +26,9 @@ object Utils {
         if(first_char == null && second_char == null)
             return null
         else if(second_char == null)
-            return "$first_char"
+            return "${first_char!!.toUpperCase()}"
+        else if(first_char == null)
+            return "${second_char!!.toUpperCase()}"
         else
             return "${first_char?.toUpperCase()}${second_char.toUpperCase()}"
 

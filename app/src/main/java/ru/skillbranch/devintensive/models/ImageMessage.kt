@@ -15,7 +15,6 @@ class ImageMessage(
                     true -> "получил"
                     else -> {
                         "отправил" }}
-            println("${from?.firstName} $getOrSend изображение $image $date")
             return "${from?.firstName} $getOrSend изображение $image $date"
         }
 

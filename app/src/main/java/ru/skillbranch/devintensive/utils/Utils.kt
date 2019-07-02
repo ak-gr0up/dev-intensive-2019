@@ -21,16 +21,21 @@ object Utils {
     }
 
     fun toInitials(firstName: String?, lastName: String?): String?{
-        val first_char: Char? = firstName?.getOrNull(0)
-        val second_char: Char? = lastName?.getOrNull(0)
+        var first_char: Char? = firstName?.getOrNull(0)
+        var second_char: Char? = lastName?.getOrNull(0)
+        if (first_char == ' ')
+            first_char = null
+        else if(second_char == ' ')
+            second_char = null
+
         if(first_char == null && second_char == null)
             return null
         else if(second_char == null)
             return "${first_char!!.toUpperCase()}"
         else if(first_char == null)
-            return "${second_char!!.toUpperCase()}"
+            return " ${second_char!!.toUpperCase()}"
         else
-            return "${first_char?.toUpperCase()}${second_char.toUpperCase()}"
+            return "${first_char!!.toUpperCase()}${second_char!!.toUpperCase()}"
 
 
         }

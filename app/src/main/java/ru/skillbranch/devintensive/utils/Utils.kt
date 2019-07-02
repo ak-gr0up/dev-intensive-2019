@@ -33,7 +33,7 @@ object Utils {
         else if(second_char == null)
             return "${first_char!!.toUpperCase()}"
         else if(first_char == null)
-            return " ${second_char!!.toUpperCase()}"
+            return "${second_char!!.toUpperCase()}"
         else
             return "${first_char!!.toUpperCase()}${second_char!!.toUpperCase()}"
 

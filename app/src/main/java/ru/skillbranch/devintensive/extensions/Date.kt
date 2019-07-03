@@ -29,42 +29,6 @@ fun Date.add(value:Int, units:TimeUnits): Date{
     return this
 }
 
-fun String.truncate(cut: Int = 16): String? = "${this.dropLast((this.length - cut))}..."
-
-fun String.stripHtml(): String?{
-    var space: Boolean = false
-    var escape: Boolean = false
-    var tags: Boolean = false
-    var result: String = ""
-    for (i in this){
-        if (i == ' '){
-            if (space == false)
-                result += " "
-                space = true}
-        else if (i == '&'){
-            if (escape == false)
-                escape = true
-            continue}
-        else if (i == '<'){
-            if (tags == false)
-                tags = true
-            continue}
-        else if (i == '>' && tags){
-            tags = false
-            continue}
-        else if (i == ';' && escape){
-            escape = false
-            continue}
-        else{
-            space = false
-        }
-        if (tags == false && escape == false && space == false){
-            result += i}
-    }
-    return result
-
-}
-
 fun Sign(value: Long) : Int{
     if (value > 0)
         return 1

@@ -4,7 +4,47 @@ import java.lang.IllegalStateException
 import java.text.SimpleDateFormat
 import java.util.*
 
-enum class TimeUnits{SECOND, MINUTE, HOUR, DAY}
+enum class TimeUnits
+{
+    SECOND, MINUTE, HOUR, DAY;
+    fun plural(value: Int): String {
+        val unit: String
+        if (this == TimeUnits.SECOND) {
+            if ((value % 10 == 1 && value % 100 != 1) || (value == 1)){
+                unit = "секунду"}
+            else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4){
+                unit = "секунды"}
+            else{
+                unit = "секунд"}
+        }
+        else if (this == TimeUnits.MINUTE){
+            if (value % 10 == 1 && value % 100 != 1){
+                unit = "минуту"}
+            else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4){
+                unit = "минуты"}
+            else{
+                unit = "минут"}
+        }
+        else if (this == TimeUnits.HOUR){
+            if (value % 10 == 1 && value % 100 != 1){
+                unit = "час"}
+            else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4){
+                unit = "часа"}
+            else{
+                unit = "часов"}
+        }
+        else {
+            if (value % 10 == 1 && value % 100 != 1){
+                unit = "день"}
+            else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4){
+                unit = "дня"}
+            else{
+                unit = "дней"}
+        }
+        return "$value $unit"
+
+    }
+}
 
 const val SECOND = 1000L
 const val MINUTE = 60 * SECOND
@@ -95,43 +135,4 @@ fun Date.humanizeDiff(dt: Date? = null): String {
             return "более чем через год"
         else
             return "более года назад"
-}
-
-
-fun TimeUnits.plural(value: Int): String {
-    val unit: String
-    if (this == TimeUnits.SECOND) {
-        if ((value % 10 == 1 && value % 100 != 1) || (value == 1)){
-            unit = "секунду"}
-        else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4){
-            unit = "секунды"}
-        else{
-            unit = "секунд"}
-    }
-    else if (this == TimeUnits.MINUTE){
-        if (value % 10 == 1 && value % 100 != 1){
-            unit = "минуту"}
-        else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4){
-            unit = "минуты"}
-        else{
-            unit = "минут"}
-    }
-    else if (this == TimeUnits.HOUR){
-        if (value % 10 == 1 && value % 100 != 1){
-            unit = "час"}
-        else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4){
-            unit = "часа"}
-        else{
-            unit = "часов"}
-    }
-    else {
-        if (value % 10 == 1 && value % 100 != 1){
-            unit = "день"}
-        else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4){
-            unit = "дня"}
-        else{
-            unit = "дней"}
-    }
-    return "$value $unit"
-
 }

@@ -10,9 +10,9 @@ enum class TimeUnits
     fun plural(value: Int): String {
         val unit: String
         if (this == TimeUnits.SECOND) {
-            if ((value % 10 == 1 && value % 100 != 1) || (value == 1)){
+            if ((value % 10 == 1 && (value % 100) / 10 != 1) || (value == 1)){
                 unit = "секунду"}
-            else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4){
+            else if ((value % 10 == 2 || value % 10 == 3 || value % 10 == 4) && ((value % 100) / 10 != 1)){
                 unit = "секунды"}
             else{
                 unit = "секунд"}
@@ -20,7 +20,7 @@ enum class TimeUnits
         else if (this == TimeUnits.MINUTE){
             if (value % 10 == 1 && value % 100 != 1 || (value == 1)){
                 unit = "минуту"}
-            else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4){
+            else if ((value % 10 == 2 || value % 10 == 3 || value % 10 == 4) && ((value % 100) / 10 != 1)){
                 unit = "минуты"}
             else{
                 unit = "минут"}
@@ -28,7 +28,7 @@ enum class TimeUnits
         else if (this == TimeUnits.HOUR){
             if (value % 10 == 1 && value % 100 != 1 || (value == 1)){
                 unit = "час"}
-            else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4){
+            else if ((value % 10 == 2 || value % 10 == 3 || value % 10 == 4) && ((value % 100) / 10 != 1)){
                 unit = "часа"}
             else{
                 unit = "часов"}
@@ -36,7 +36,7 @@ enum class TimeUnits
         else {
             if (value % 10 == 1 && value % 100 != 1 || (value == 1)){
                 unit = "день"}
-            else if (value % 10 == 2 || value % 10 == 3 || value % 10 == 4){
+            else if ((value % 10 == 2 || value % 10 == 3 || value % 10 == 4) && (value % 100) / 10 != 1){
                 unit = "дня"}
             else{
                 unit = "дней"}

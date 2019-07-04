@@ -2,7 +2,7 @@ package ru.skillbranch.devintensive.extensions
 
 fun String.truncate(cut: Int = 16): String?{
     val s: String = this.trim()
-    if (cut >= s.length + 1){
+    if (cut + 1 >= s.length){
         return s
     }
     else {

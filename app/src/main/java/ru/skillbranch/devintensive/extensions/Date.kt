@@ -18,7 +18,7 @@ enum class TimeUnits
                 unit = "секунд"}
         }
         else if (this == TimeUnits.MINUTE){
-            if (value % 10 == 1 && value % 100 != 1 || (value == 1)){
+            if (value % 10 == 1 && (value % 100) / 10 != 1 || (value == 1)){
                 unit = "минуту"}
             else if ((value % 10 == 2 || value % 10 == 3 || value % 10 == 4) && ((value % 100) / 10 != 1)){
                 unit = "минуты"}
@@ -26,7 +26,7 @@ enum class TimeUnits
                 unit = "минут"}
         }
         else if (this == TimeUnits.HOUR){
-            if (value % 10 == 1 && value % 100 != 1 || (value == 1)){
+            if (value % 10 == 1 && (value % 100) / 10 != 1 || (value == 1)){
                 unit = "час"}
             else if ((value % 10 == 2 || value % 10 == 3 || value % 10 == 4) && ((value % 100) / 10 != 1)){
                 unit = "часа"}
@@ -34,7 +34,7 @@ enum class TimeUnits
                 unit = "часов"}
         }
         else {
-            if (value % 10 == 1 && value % 100 != 1 || (value == 1)){
+            if (value % 10 == 1 && (value % 100) / 10 != 1 || (value == 1)){
                 unit = "день"}
             else if ((value % 10 == 2 || value % 10 == 3 || value % 10 == 4) && (value % 100) / 10 != 1){
                 unit = "дня"}

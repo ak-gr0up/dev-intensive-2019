@@ -1,6 +1,13 @@
 package ru.skillbranch.devintensive.extensions
 
-fun String.truncate(cut: Int = 16): String? = "${this.dropLast((this.length - cut))}..."
+fun String.truncate(cut: Int = 16): String?{
+    if (cut >= this.dropLast((this.length - cut)).trimEnd(' ').length){
+        return this.dropLast((this.length - cut)).trimEnd(' ')
+    }
+    else {
+        return "${this.dropLast((this.length - cut)).trimEnd(' ')}..."
+    }
+}
 
 fun String.stripHtml(): String?{ // &amp;|&lt;|&gt;|&#39;|&quot; - это escape последовательности для html символов(ИСПРАВИТЬ!)
     var space = false

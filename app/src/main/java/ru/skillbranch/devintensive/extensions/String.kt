@@ -10,7 +10,7 @@ fun String.truncate(cut: Int = 16): String?{
     }
 }
 
-fun String.stripHtml(): String?{ // &amp;|&lt;|&gt;|&#39;|&quot; - это escape последовательности для html символов(ИСПРАВИТЬ!)
+fun String.stripHtml(): String?{ 
     var space = false
     var escape = false
     var tags = false

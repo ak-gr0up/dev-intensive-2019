@@ -44,7 +44,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
             val answer = answerToUp.toLowerCase()
             if (question.answers.contains(answer)){
                 question = question.nextQuestion()
-                return "Отлио - ты справился\n${question.question}" to status.color
+                return "Отлично - ты справился\n${question.question}" to status.color
             }
             else {
                 if (wrongAnswers == 3){

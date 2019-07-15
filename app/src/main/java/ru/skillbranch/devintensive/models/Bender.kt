@@ -38,38 +38,38 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         }
         return ""
     }
-//    fun listenAnswer(answerToUp: String): Pair<String, Triple<Int, Int, Int>>{
-//        val checkValidation = validation(answerToUp)
-//        if (checkValidation == ""){
-//            val answer = answerToUp.toLowerCase()
-//            if (question.answers.contains(answer)){
-//                question = question.nextQuestion()
-//                return "Отлично - ты справился\n${question.question}" to status.color
-//            }
-//            else {
-//                if (wrongAnswers == 3){
-//                    wrongAnswers = 0
-//                    status =  Status.NORMAL
-//                    question = Question.NAME
-//                    return "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
-//                }
-//                if (question != Question.IDLE) {
-//                    wrongAnswers ++
-//                    status = status.nextStatus()
-//                    return "Это неправильный ответ\n${question.question}" to status.color
-//                }
-//                else{
-//                    return "На этом все, вопросов больше нет" to status.color
-//                }
-//
-//                }
-//            }
-//
-//        else{
-//            return "${checkValidation}\n${question.question}" to status.color
-//        }
-//
-//    }
+    fun listenAnswer(answerToUp: String): Pair<String, Triple<Int, Int, Int>>{
+        val checkValidation = validation(answerToUp)
+        if (checkValidation == ""){
+            val answer = answerToUp.toLowerCase()
+            if (question.answers.contains(answer)){
+                question = question.nextQuestion()
+                return "Отлио - ты справился\n${question.question}" to status.color
+            }
+            else {
+                if (wrongAnswers == 3){
+                    wrongAnswers = 0
+                    status =  Status.NORMAL
+                    question = Question.NAME
+                    return "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
+                }
+                if (question != Question.IDLE) {
+                    wrongAnswers ++
+                    status = status.nextStatus()
+                    return "Это неправильный ответ\n${question.question}" to status.color
+                }
+                else{
+                    return "На этом все, вопросов больше нет" to status.color
+                }
+
+                }
+            }
+
+        else{
+            return "${checkValidation}\n${question.question}" to status.color
+        }
+
+    }
 
     enum class Status(val color: Triple<Int, Int, Int>) {
         NORMAL(Triple(255, 255, 255)) ,

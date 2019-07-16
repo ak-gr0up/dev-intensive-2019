@@ -1,11 +1,14 @@
 package ru.skillbranch.devintensive
 
+import android.app.Activity
+import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.util.Log
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -55,4 +58,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         outState?.putString("STATUS", benderObj.status.name)
         outState?.putString("QUESTION", benderObj.question.name)
     }
-}
+
+    fun Activity.hideKeyboard() {
+        val view: View = if (currentFocus == null) View(this) else currentFocus
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    }
+

@@ -1,13 +1,17 @@
 package ru.skillbranch.devintensive.extensions
 
 import android.app.Activity
+import android.content.Context
 import java.lang.IllegalStateException
 import java.text.SimpleDateFormat
 import java.util.*
+import android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
+import kotlinx.android.synthetic.main.activity_main.*
 
-fun Activity.hideKeyboard(){
-
-}
 
 enum class TimeUnits
 {

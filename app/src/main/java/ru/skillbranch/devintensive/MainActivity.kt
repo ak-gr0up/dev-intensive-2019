@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.Rect
 import android.util.Log
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -17,6 +18,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.extensions.hideKeyboard
+import ru.skillbranch.devintensive.extensions.isKeyboardClosed
+import ru.skillbranch.devintensive.extensions.isKeyboardOpened
 import ru.skillbranch.devintensive.models.Bender
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEditorActionListener  {
@@ -46,6 +49,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
         sendBtn.setOnClickListener(this)
         messageEt.setOnEditorActionListener(this)
 
+
     }
 
     override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
@@ -63,6 +67,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
     }
 
     override fun onClick(v: View?) {
+
         if(v?.id == R.id.iv_send){
             val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
             val (r,g,b) = color

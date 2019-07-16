@@ -59,11 +59,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         outState?.putString("QUESTION", benderObj.question.name)
     }
 
-    fun Activity.hideKeyboard() {
-        val view: View = if (currentFocus == null) View(this) else currentFocus
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    }
 
     }
 

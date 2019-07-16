@@ -2,7 +2,7 @@ package ru.skillbranch.devintensive.models
 
 class Bender(var status: Status = Status.NORMAL, var question: Question = Question.NAME) {
 
-    var wrongAnswers: Int = 0
+    var wrongAnswers: Int = when(status){Status.NORMAL -> 0; Status.WARNING -> 1; Status.DANGER -> 2; Status.CRITICAL -> 3}
 
     fun validation(answer: String): String{
         if (question == Question.NAME){

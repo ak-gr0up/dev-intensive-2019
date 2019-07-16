@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 fun Activity.hideKeyboard(){
-    
+
 }
 
 enum class TimeUnits

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         benderImage = iv_bender
-        textTxt = tx_text
+        textTxt = tv_text
         messageEt = et_message
         sendBtn = iv_send
 
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
             val (r,g,b) = color
             benderImage.setColorFilter(Color.rgb(r,g,b), PorterDuff.Mode.MULTIPLY)
-            textTxt.text = phrase 
+            textTxt.text = phrase
         }
     }
 

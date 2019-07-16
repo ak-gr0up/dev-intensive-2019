@@ -34,18 +34,23 @@
                   android:background="@color/color_primary"
                   android:layout_marginTop="@dimen/spacing_normal_16"
     >
-        <EditText android:layout_width="0dp"
+        <EditText
+                  android:id="@+id/et_message"
+                  android:layout_width="0dp"
                   android:layout_weight="1"
                   android:layout_height="wrap_content"
                   android:lines="1"
                   android:textColor="@color/color_gray_light"
                   android:textColorHint="@color/color_gray_light"
                   android:hint="Введите текст"
+                  android:imeOptions="actionDone"
+                  android:singleLine="true"
+                  android:inputType="text"
                   android:paddingTop="@dimen/spacing_normal_16"
                   android:paddingBottom="@dimen/spacing_normal_16"
                   android:layout_marginLeft="@dimen/spacing_normal_16"
                   android:layout_marginRight="@dimen/spacing_normal_16"
-                  android:id="@+id/et_message"
+
 
         />
         <ImageView android:layout_width="@dimen/button_size"

@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
             val (r,g,b) = color
             benderImage.setColorFilter(Color.rgb(r,g,b), PorterDuff.Mode.MULTIPLY)
             textTxt.text = phrase
+            messageEt.setText(null)
             hideKeyboard()
             return true
         }
@@ -73,6 +74,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
             val (r,g,b) = color
             benderImage.setColorFilter(Color.rgb(r,g,b), PorterDuff.Mode.MULTIPLY)
             textTxt.text = phrase
+            messageEt.setText(null)
         }
     }
 

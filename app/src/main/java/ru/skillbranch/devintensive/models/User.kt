@@ -1,97 +1,83 @@
 package ru.skillbranch.devintensive.models
 
+import ru.skillbranch.devintensive.extensions.format
 import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
 
-data class User (
-    val id:String,
-    var firstName:String?,
-    var lastName:String?,
-    var avatar:String?,
-    var rating:Int = 0,
-    var respect:Int = 0,
-    var lastVisit:Date? = null,
-    var isOnline:Boolean = false
-) {
+data class User(
+    val id : String,
+    var firstName : String?,
+    var lastName : String?,
+    var avatar : String?,
+    var rating : Int = 0,
+    var respect : Int = 0,
+    var lastVisit : Date? = Date(),
+    var isOnline : Boolean = false
+){
 
-    constructor(id: String, firstName: String?, lastName: String?) : this(
-        id = id,
-        firstName = firstName,
-        lastName = lastName,
-        avatar = null
-    )
+    constructor(id:String, firstName: String?, lastName: String?): this(id = id, firstName = firstName, lastName = lastName, avatar = null)
 
-    constructor(id: String) : this(id, "John", "Doe")
+    constructor(id: String):this(id, "Unknown", "User$id")
 
-    init {
-        println("It's Alive!!! \n${if (lastName == "Doe") "His name is $firstName $lastName" else "And his name is $firstName $lastName!!!"}\n")
-    }
+    /*init {
+        println("Hallo.\n" +
+                "${if(firstName==="Unknown") "My name is $firstName $lastName" else "And my name is $firstName $lastName"}\n" +
+                "it's ${lastVisit?.format()}"/*+
+                "${getIntro()}"*/)
+    }*/
+
+    private fun getIntro(): String = """
+            id: $id
+            firstName: $firstName 
+            lastName: $lastName
+            avatar: $avatar
+            rating: $rating
+            respect: $respect
+            lastVisit: $lastVisit
+            isOnline: $isOnline
+    """.trimIndent()
 
     companion object Factory {
-        var lastId : Int = -1
-        fun makeUser(fullName: String?): User {
+        private var lastId:Int = -1
+        fun makeUser(fullName:String?):User{
             lastId++
-
             val (firstName, lastName) = Utils.parseFullName(fullName)
-
             return User(id = "$lastId", firstName = firstName, lastName = lastName)
         }
     }
 
-    //region ============================ Builder =================================
-    class Builder
-    {
-        private var id:String? = null
-        private var firstName:String?  = null
-        private var lastName:String? = null
-        private var avatar:String? = null
-        private var rating:Int = 0
-        private var respect:Int = 0
-        private var lastVisit:Date? = null
-        private var isOnline:Boolean = false
+    /*
+    Реализуй паттерн Builder для класса User.
+User.Builder().id(s)
+.firstName(s)
+.lastName(s)
+.avatar(s)
+.rating(n)
+.respect(n)
+.lastVisit(d)
+.isOnline(b)
+.build() должен вернуть объект User
+     */
 
-        fun id(arg:String):Builder {
-            this.id = arg
-            return this
-        }
-        fun firstName(arg:String):Builder {
-            this.firstName = arg
-            return this
-        }
-        fun lastName(arg:String):Builder {
-            this.lastName = arg
-            return this
-        }
-        fun avatar(arg:String):Builder {
-            this.avatar = arg
-            return this
-        }
-        fun rating(arg:Int):Builder {
-            this.rating = arg
-            return this
-        }
-        fun respect(arg:Int):Builder {
-            this.respect = arg
-            return this
-        }
-        fun lastVisit(arg:Date):Builder {
-            this.lastVisit = arg
-            return this
-        }
-        fun isOnline(arg:Boolean):Builder {
-            this.isOnline = arg
-            return this
-        }
-        fun build():User{
-            val user = if(id == null) makeUser("${firstName ?: ""} ${lastName ?: ""}") else User(id!!,firstName,lastName)
-            user.avatar = avatar
-            user.rating = rating
-            user.respect = respect
-            user.lastVisit = lastVisit
-            user.isOnline = isOnline
-            return user
-        }
+    data class Builder(
+        var id : String = "",
+        var firstName : String? = null,
+        var lastName : String? = null,
+        var avatar : String? = null,
+        var rating : Int = 0,
+        var respect : Int = 0,
+        var lastVisit : Date? = Date(),
+        var isOnline : Boolean = false){
+
+        fun id(id: String) = apply { this.id = id }
+        fun firstName(firstName: String?) = apply { this.firstName = firstName }
+        fun lastName(lastName: String?) = apply { this.lastName = lastName }
+        fun avatar(avatar: String?) = apply { this.avatar = avatar }
+        fun rating(rating:Int) = apply { this.rating = rating }
+        fun respect(respect:Int) = apply { this.respect = respect }
+        fun lastVisit(lastVisit : Date) = apply { this.lastVisit = lastVisit }
+        fun isOnline(isOnline : Boolean) = apply { this.isOnline = isOnline }
+
+        fun build() = User(id, firstName, lastName, avatar, rating, respect, lastVisit, isOnline)
     }
-    //endregion ============================ Builder =================================
 }
-

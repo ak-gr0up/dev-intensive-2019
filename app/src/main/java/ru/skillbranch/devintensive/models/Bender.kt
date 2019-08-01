@@ -1,80 +1,129 @@
 package ru.skillbranch.devintensive.models
 
-import java.util.*
+class Bender (var status:Status = Status.NORMAL, var question:Question = Question.NAME) {
 
-class Bender (
-    var status: Status = Status.NORMAL,
-    var question: Question = Question.NAME
-){
-
-    fun askQuestion():String = when(question){
-                Question.NAME -> Question.NAME.question
-                Question.PROFESSION -> Question.PROFESSION.question
-                Question.MATERIAL -> Question.MATERIAL.question
-                Question.BDAY -> Question.BDAY.question
-                Question.SERIAL -> Question.SERIAL.question
-                Question.IDLE -> Question.IDLE.question
+    fun askQueston(): String = when (question) {
+        Question.NAME -> Question.NAME.question
+        Question.PROFESSION -> Question.PROFESSION.question
+        Question.MATERIAL -> Question.MATERIAL.question
+        Question.BDAY -> Question.BDAY.question
+        Question.SERIAL -> Question.SERIAL.question
+        Question.IDLE -> Question.IDLE.question
     }
 
-    fun listenAnswer(answer:String):Pair<String, Triple<Int, Int, Int>> {
-        return if (question == Question.IDLE) {
-            ""
-        } else {
-            val valid = question.validateAnswer(answer)
-            if (valid.isEmpty()) {
-                if (question.answers.contains(answer.toLowerCase(Locale("ru")))) {
-                    question = question.nextQuestion()
-                    "Отлично - ты справился\n"
+    /*
+    *Activity.hideKeyboard
+    Требования к методу listenAnswer:
+    При вводе неверного ответа изменить текущий статус на следующий статус (status = status.nextStatus()),
+    вернуть "Это неправильный ответ\n${question.question}" to status.color и
+    изменить цвет ImageView (iv_bender) на цвет status.color (метод setColorFilter(color,"MULTIPLY"))
+
+    При вводе неверного ответа более 3 раз сбросить состояние сущности Bender на значение по умолчанию (status = Status.NORMAL, question = Question.NAME)
+    и вернуть "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color и изменить цвет ImageView (iv_bender) на цвет status.color
+    Необходимо сохранять состояние экземпляра класса Bender при пересоздании Activity (достаточно сохранить Status, Question)
+     */
+
+    fun listenAnswer(answer: String): Pair<String, Triple<Int, Int, Int>> {
+
+        var validString = question.validationAnswer(answer)
+        return if (validString == null){
+            if (question == Question.IDLE){
+                "\n${question.question}" to status.color
+            } else {
+                if (question.answer.contains(answer.toLowerCase())) {
+                    question = question.nextQUESTION()
+                    validString = "Отлично - ты справился"
+                    validString + "\n${question.question}" to status.color
                 } else {
-                    status = status.nextStatus()
-                    if (status == Status.NORMAL) {
+                    if (status<Status.CRITICAL) {
+                        status = status.nextStatus()
+                        "Это неправильный ответ\n${question.question}" to status.color
+                    } else {
+                        status = Status.NORMAL
                         question = Question.NAME
-                        "Это неправильный ответ. Давай все по новой\n"
-                    } else "Это неправильный ответ\n"
+                        "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
+                    }
                 }
-            }else{
-                "$valid\n"
             }
-        } + question.question to status.color
+        } else validString + "\n${question.question}" to status.color
     }
 
+    enum class Status(val color: Triple<Int, Int, Int>) {
+        NORMAL(Triple(255, 255, 255)),
+        WARNING(Triple(255, 120, 0)),
+        DANGER(Triple(255, 60, 60)),
+        CRITICAL(Triple(255, 0, 0));
 
-    enum class Status(val color:Triple<Int, Int, Int>){
-        NORMAL(Triple(255,255,255)),
-        WARNING(Triple(255,120,0)),
-        DANGER(Triple(255,60,60)),
-        CRITICAL(Triple(255,0,0));
-
-        fun nextStatus():Status = if (this.ordinal<values().lastIndex)  values()[this.ordinal+1] else values()[0]
+        fun nextStatus(): Status {
+            return if (this.ordinal < values().lastIndex) {
+                values()[this.ordinal + 1]
+            } else {
+                values()[0]
+            }
+        }
     }
 
-    enum class Question (val question:String, val answers:List<String>){
+    enum class Question(val question: String, val answer: List<String>) {
         NAME("Как меня зовут?", listOf("бендер", "bender")) {
-            override fun nextQuestion(): Question = PROFESSION
-            override fun validateAnswer(answer: String): String = if (answer.isBlank() || !answer[0].isUpperCase()) "Имя должно начинаться с заглавной буквы" else ""
+            override fun validationAnswer(newAnswer: String): String? {
+                return if (!newAnswer.get(0).isUpperCase()) {
+                    "Имя должно начинаться с заглавной буквы"
+                }
+                else {
+                    null
+                }
+            }
+
+            override fun nextQUESTION(): Question = PROFESSION
+
         },
         PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")) {
-            override fun nextQuestion(): Question = MATERIAL
-            override fun validateAnswer(answer: String): String = if (answer.isBlank() || !answer[0].isLowerCase()) "Профессия должна начинаться со строчной буквы" else ""
+            override fun validationAnswer(newAnswer: String): String? {
+                return if (!newAnswer[0].isLowerCase())
+                    "Профессия должна начинаться со строчной буквы"
+                else null
+            }
+
+            override fun nextQUESTION(): Question = MATERIAL
         },
-        MATERIAL("Из чего я сделан?", listOf("металл","дерево","metal","iron","wood")) {
-            override fun nextQuestion(): Question = BDAY
-            override fun validateAnswer(answer: String): String = if (answer.contains(Regex("\\d"))) "Материал не должен содержать цифр" else ""
+        MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood")) {
+            override fun validationAnswer(newAnswer: String): String? {
+                val flag = (Regex("""\d""").containsMatchIn(newAnswer))
+                return if (flag)
+                    "Материал не должен содержать цифр"
+                else null
+            }
+
+            override fun nextQUESTION(): Question = BDAY
         },
         BDAY("Когда меня создали?", listOf("2993")) {
-            override fun nextQuestion(): Question = SERIAL
-            override fun validateAnswer(answer: String): String = if (!answer.matches(Regex("^\\d{4}\$"))) "Год моего рождения должен содержать только цифры" else ""
+            override fun validationAnswer(newAnswer: String): String? {
+                val flag = (Regex("""(\d){1,}""").matches(newAnswer))
+                return if (!flag)
+                    "Год моего рождения должен содержать только цифры"
+                else null
+            }
+
+            override fun nextQUESTION(): Question = SERIAL
         },
         SERIAL("Мой серийный номер?", listOf("2716057")) {
-            override fun nextQuestion(): Question = IDLE
-            override fun validateAnswer(answer: String): String = if (!answer.matches(Regex("^\\d{7}\$"))) "Серийный номер содержит только цифры, и их 7" else ""
+            override fun validationAnswer(newAnswer: String): String? {
+                val flag = (Regex("""(\d){7}""").matches(newAnswer))
+                return if (!flag)
+                    "Серийный номер содержит только цифры, и их 7"
+                else null
+            }
+
+            override fun nextQUESTION(): Question = IDLE
         },
         IDLE("На этом все, вопросов больше нет", listOf()) {
-            override fun nextQuestion(): Question = IDLE
-            override fun validateAnswer(answer: String): String = ""
+            override fun validationAnswer(newAnswer: String): String? = null
+
+            override fun nextQUESTION(): Question = IDLE
         };
 
-        abstract fun nextQuestion():Question
-        abstract fun validateAnswer(answer:String):String
+        abstract fun nextQUESTION(): Question
+        abstract fun validationAnswer(newAnswer: String):String?
     }
+
 }

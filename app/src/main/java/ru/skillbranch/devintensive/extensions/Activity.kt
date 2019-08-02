@@ -1,29 +1,42 @@
 package ru.skillbranch.devintensive.extensions
 
 import android.app.Activity
+import android.content.Context
+import android.content.res.Resources
 import android.graphics.Rect
-import android.view.View
+import android.util.TypedValue
 import android.view.inputmethod.InputMethodManager
+import android.view.View
+import ru.skillbranch.devintensive.utils.Utils
+import ru.skillbranch.devintensive.utils.Utils.convertDpToPx
+import java.lang.Math.abs
 
-fun Activity.hideKeyboard() {
-    val view: View = if (currentFocus == null) View(this) else currentFocus
-    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+
+fun Activity.hideKeyboard(){
+        val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(currentFocus!!.windowToken, InputMethodManager.SHOW_FORCED)
 }
-fun Activity.isKeyboardOpened(): Boolean{
-    var rect = Rect()
-    this.window.decorView.getWindowVisibleDisplayFrame(rect)
-    val leftArea: Int = rect.height()
-    val windowHeight: Int = this.resources.displayMetrics.heightPixels
-    return when(windowHeight - leftArea > 250){true -> true; false -> false}
+
+fun Activity.isKeyboardOpen(): Boolean {
+    val rect = Rect()
+    val rootView = findViewById<View>(android.R.id.content)
+    rootView.getWindowVisibleDisplayFrame(rect)
+    val heightDiff = rootView.height - rect.height()
+    val error = convertDpToPx(this,50)//this.dpToPx(50F)
+
+    return heightDiff > error
 }
-fun Activity.isKeyboardOpen(): Boolean{
-    var rect = Rect()
-    this.window.decorView.getWindowVisibleDisplayFrame(rect)
-    val leftArea: Int = rect.height()
-    val windowHeight: Int = this.resources.displayMetrics.heightPixels
-    return when(windowHeight - leftArea > 250){true -> true; false -> false}
-}
-fun Activity.isKeyboardClosed(): Boolean{
-    return when(isKeyboardOpened()){true -> false; false -> true}
+
+/*fun Activity.isKeyboardOpen():Boolean{
+    val rect = Rect()
+    val rootView = findViewById<View>(android.R.id.content)
+    rootView.getWindowVisibleDisplayFrame(rect)
+
+    val heightDiff = abs(rootView.height - (rect.bottom-rect.top))
+
+    return heightDiff < rootView.height/3;
+}*/
+
+fun Activity.isKeyboardClosed():Boolean{
+    return this.isKeyboardOpen().not()
 }

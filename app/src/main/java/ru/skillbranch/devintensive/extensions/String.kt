@@ -1,82 +1,53 @@
 package ru.skillbranch.devintensive.extensions
 
-fun String.truncate(cut: Int = 16): String?{
-    val s: String = this.trim()
-    if (cut + 1 >= s.length){
-        return s
-    }
-    else {
-        return "${s.dropLast((s.length - cut)).trim()}..."
-    }
+
+fun String.truncate(limit: Int = 16): String {
+    val tempString = this.trimEnd()
+    return if (tempString.length <= limit) return tempString else tempString.dropLast(tempString.length - limit).trimEnd() + "..."
 }
 
-fun String.stripHtml(): String?{ 
-    var space = false
-    var escape = false
-    var tags = false
-    var result = ""
-    var miss = 0
-    for (i in this){
-        if (i == ' '){
-            if (!space)
-                if (!tags && !escape) {
-                    result += " "
-                }
-            space = true
-        }
-        else if (i == '&') {
-            escape = true
-            continue
-        }
-        else if (i == '<') {
-            tags = true
-            continue
-        }
-        else if (i == '>' && tags) {
-            tags = false
-            continue
-        }
-        else if (i == ';' && escape) {
-            escape = false
-            continue
-        }
-        else {
-            space = false
-        }
-        if (!tags && !escape && !space)
-            result += i
-    }
-    var resultWithoutSpaces: String = ""
-    for (i in 0..(result.length - 1)){
-        if (miss != 0){
-            miss --
-            continue
-        }
-        if(i != 0 && result[i] == ' ' && result[i-1] == ' ' || result[i] == '\n') {
-            continue
-        }
-        if (i < result.length - 5) {
-            val escCheck = result[i].toString() + result[i+1].toString() + result[i+2].toString() + result[i+3].toString() + result[i+4].toString()
-            if (escCheck == "&amp;" || escCheck == "&#39;"){
-                miss = escCheck.length
-            }
-        }
-        if (i < result.length - 4) {
-            val escCheck = result[i].toString() + result[i+1].toString() + result[i+2].toString() + result[i+3].toString()
-            if (escCheck == "&lt;" || escCheck == "&gt;"){
-                miss = escCheck.length
-            }
-        }
-        if (i < result.length - 6) {
-            val escCheck = result[i].toString() + result[i+1].toString() + result[i+2].toString() + result[i+3].toString() +
-            result[i+4].toString() + result[i+5].toString()
-            if (escCheck == "&quot;"){
-                miss = escCheck.length
-            }
-        }
+fun String.stripHtml(): String {
+    val temp = (Regex("""<.+?>""").replace(this, ""))
+    return (Regex(""" +""").replace(temp, " "))
+}
 
-        resultWithoutSpaces += result[i]
-    }
-    return resultWithoutSpaces
+/*
+Реализуй валидацию вводимых пользователем данных в поле @id/et_repository на соответствие url валидному github аккаунту,
+вводимое значение должно содержать домен github.com (https://, www, https://www) и
+аккаунт пользователя (пути для исключения прикреплены в ресурсах урока).
+Если URL невалиден, выводить сообщение "Невалидный адрес репозитория" в TextInputLayout (wr_repository.error(message)) и
+запрещать сохранение невалидного значения в SharedPreferences (при попытке сохранить невалидное поле очищать et_repository при нажатии @id/btn_edit)
+Пример:
+https://github.com/johnDoe //валиден
+https://www.github.com/johnDoe //валиден
+www.github.com/johnDoe //валиден
+github.com/johnDoe //валиден
+https://anyDomain.github.com/johnDoe //невалиден
+https://github.com/ //невалиден
+https://github.com //невалиден
+https://github.com/johnDoe/tree //невалиден
+https://github.com/johnDoe/tree/something //невалиден
+https://github.com/enterprise //невалиден
+https://github.com/pricing //невалиден
+https://github.com/join //невалиден
+ */
 
+fun String.validGithub(): Boolean {
+    if (this.isNullOrEmpty()) {
+        return true
+    }   else {
+        var pattern = """^(?:https://github.com|https://www.github.com|www.github.com|github.com)/(\w+)"""
+        val matcherResult = Regex(pattern).find(this)
+        if (matcherResult == null) {
+            return false
+        } else {
+            val (name) = matcherResult!!.destructured
+            val exceptionList: List<String> = listOf(
+                "enterprise", "features", "topics", "collections", "trending", "events", "marketplace",
+                "pricing", "nonprofit", "customer-stories", "security", "login", "join"
+            )
+            exceptionList.indexOf(name)
+            return !(!Regex(pattern).matches(this) || exceptionList.indexOf(name) >= 0)
+        }
+    }
 }

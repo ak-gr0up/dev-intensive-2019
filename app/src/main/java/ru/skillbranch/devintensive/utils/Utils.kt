@@ -1,120 +1,72 @@
 package ru.skillbranch.devintensive.utils
 
-object Utils {
-    fun parseFullName(userName: String?): Pair<String?, String?>{
-        if (userName == "" || userName == null)
-            return Pair(null, null)
-        val name: List<String>? = userName.split(" ")
-        val firstName = name?.getOrNull(0)
-        val lastName = name?.getOrNull(1)
+import android.app.Activity
+import android.content.Context
+import android.util.TypedValue
+import ru.skillbranch.devintensive.extensions.stripHtml
+import kotlin.math.roundToLong
 
+object Utils{
 
-        if ((firstName == "" && lastName == "") or (firstName == " " && lastName == " ") or (userName == ""))
-            return Pair(null, null)
-        else if (lastName == "")
-            return Pair(firstName, null)
-        else if (lastName == " ")
-            return Pair(firstName, null)
-        else
-            return Pair(firstName, lastName)
-
+    fun parseFullName(fullName: String?): Pair<String?, String?> {
+        var firstName:String? = null
+        var lastName:String? = null
+        if (!fullName.isNullOrEmpty()&& fullName != " "){
+            val pats:List<String>? = fullName?.split(" ")
+            firstName = pats?.getOrNull(0)
+            lastName = pats?.getOrNull(1)
+        }
+        return  Pair(firstName, lastName)
     }
 
-    fun toInitials(firstName: String?, lastName: String?): String?{
-        var first_char: Char? = firstName?.getOrNull(0)
-        var second_char: Char? = lastName?.getOrNull(0)
-        if (first_char == ' ')
-            first_char = null
-        else if(second_char == ' ')
-            second_char = null
+    fun transliteration(payload: String, divider:String = " "): String {
+        val numbersMap = mapOf(
+            "а" to "a", "б" to "b", "в" to "v", "г" to "g", "д" to "d", "е" to "e", "ё" to "e", "ж" to "zh",
+            "з" to "z", "и" to "i", "й" to "i", "к" to "k", "л" to "l", "м" to "m", "н" to "n", "о" to "o",
+            "п" to "p", "р" to "r", "с" to "s", "т" to "t", "у" to "u", "ф" to "f", "х" to "h", "ц" to "c",
+            "ч" to "ch", "ш" to "sh", "щ" to "sh'", "ъ" to "", "ы" to "i", "ь" to "", "э" to "e", "ю" to "yu", "я" to "ya")
 
-        if(first_char == null && second_char == null)
-            return null
-        else if(second_char == null)
-            return "${first_char!!.toUpperCase()}"
-        else if(first_char == null)
-            return "${second_char!!.toUpperCase()}"
-        else
-            return "${first_char!!.toUpperCase()}${second_char!!.toUpperCase()}"
-
-
+        var result: String = ""
+            for (item in payload){
+                if (item.toString() == " ")
+                    result += divider
+                else
+                    if  (!numbersMap.containsKey(item.toLowerCase().toString())) {
+                        result += item.toString()
+                    } else {
+                        if (item.toLowerCase().toString() == item.toString())
+                            result += numbersMap[item.toString()]
+                        else {
+                            var temp = (numbersMap[item.toLowerCase().toString()])!!
+                            if (temp.length>1)
+                                result += temp.first().toUpperCase() + temp.last().toString()
+                            else
+                                result += temp.toUpperCase()
+                        }
+                    }
+            }
+            return result
         }
 
-    fun transliteration(payload: String?, divider: String? = " "): String{
-        var result:String = ""
-        val string_length: Int = payload!!.length - 1
-        for(i in 0..string_length){
-            when(payload[i].toString()){
-                "а" -> result += "a"
-                "б" -> result += "b"
-                "в" -> result += "v"
-                "г" -> result += "g"
-                "д" -> result += "d"
-                "е" -> result += "e"
-                "ё" -> result += "e"
-                "ж" -> result += "zh"
-                "з" -> result += "z"
-                "и" -> result += "i"
-                "й" -> result += "i"
-                "к" -> result += "k"
-                "л" -> result += "l"
-                "м" -> result += "m"
-                "н" -> result += "n"
-                "о" -> result += "o"
-                "п" -> result += "p"
-                "р" -> result += "r"
-                "с" -> result += "s"
-                "т" -> result += "t"
-                "у" -> result += "u"
-                "ф" -> result += "f"
-                "х" -> result += "h"
-                "ц" -> result += "c"
-                "ч" -> result += "ch"
-                "ш" -> result += "sh"
-                "щ" -> result += "sh'"
-                "ъ" -> result += ""
-                "ы" -> result += "i"
-                "ь" -> result += ""
-                "э" -> result += "e"
-                "ю" -> result += "yu"
-                "я" -> result += "ya"
-                "А" -> result += "A"
-                "Б" -> result += "B"
-                "В" -> result += "V"
-                "Г" -> result += "G"
-                "Д" -> result += "D"
-                "Е" -> result += "E"
-                "Ё" -> result += "E"
-                "Ж" -> result += "Zh"
-                "З" -> result += "Z"
-                "И" -> result += "I"
-                "Й" -> result += "I"
-                "К" -> result += "K"
-                "Л" -> result += "L"
-                "М" -> result += "M"
-                "Н" -> result += "N"
-                "О" -> result += "O"
-                "П" -> result += "P"
-                "Р" -> result += "R"
-                "С" -> result += "S"
-                "Т" -> result += "T"
-                "У" -> result += "U"
-                "Ф" -> result += "F"
-                "Х" -> result += "H"
-                "Ц" -> result += "C"
-                "Ч" -> result += "Ch"
-                "Ш" -> result += "Sh"
-                "Щ" -> result += "Sh'"
-                "Ъ" -> result += ""
-                "Ы" -> result += "I"
-                "Ь" -> result += ""
-                "Э" -> result += "E"
-                "Ю" -> result += "Yu"
-                "Я" -> result += "Ya"
-                " " -> result += "$divider"
-                else -> result += "${payload[i]}"
-            }
+    fun toInitials(firstName: String?, lastName: String?): String? {
+        var result: String? = null
+        if (!firstName.isNullOrEmpty() && firstName != " "){
+            result = (firstName[0].toUpperCase()).toString()
+        }
+        if (!lastName.isNullOrEmpty() && lastName != " "){
+            if (result==null) result = (lastName[0].toUpperCase()).toString()
+            else result += (lastName[0].toUpperCase()).toString()
         }
         return result
     }
+
+    fun convertDpToPx(context: Context, px: Int): Int {
+        val scale = context.resources.displayMetrics.density
+        return (px / scale + 0.5f).toInt()
+    }
+
+    fun dpToPx(context: Context, dp: Float): Long {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.resources.displayMetrics).roundToLong()
+    }
+
 }

@@ -4,7 +4,8 @@
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
-                                                    android:theme="@style/AppTheme">
+                                                    android:theme="@style/AppTheme"
+android:background="?attr/colorBackgroundFloating">
 
 
     <ImageView
@@ -59,7 +60,7 @@
             android:layout_height="80dp"
             android:id="@+id/view" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/imageView"
-            android:background="@color/color_primary_light"/>
+            android:background="?attr/colorAccentedSurface"/>
     <View
             android:layout_width="1dp"
             android:layout_height="0dp"
@@ -149,7 +150,7 @@
             android:id="@+id/divider"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="72dp" android:background="@color/color_divider_dark"
+            android:layout_marginStart="72dp" android:background="?attr/colorDivider"
             android:layout_marginEnd="16dp" android:layout_marginTop="5dp"/>
     <ImageView
             android:layout_width="@dimen/btn_round_size_40"
@@ -178,7 +179,7 @@
             android:id="@+id/divider2" android:layout_marginTop="5dp"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="72dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp" android:background="@color/color_divider_dark"/>
+            android:layout_marginEnd="16dp" android:background="?attr/colorDivider"/>
     <ImageView
             android:layout_width="@dimen/btn_round_size_40"
             android:layout_height="@dimen/btn_round_size_40" app:srcCompat="@drawable/ic_repo"

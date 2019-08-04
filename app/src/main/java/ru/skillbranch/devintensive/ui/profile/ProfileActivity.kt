@@ -32,6 +32,7 @@ import ru.skillbranch.devintensive.extensions.hideKeyboard
 import ru.skillbranch.devintensive.models.Bender
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.utils.Utils
 
 class ProfileActivity : AppCompatActivity(){
     companion object{
@@ -57,9 +58,6 @@ class ProfileActivity : AppCompatActivity(){
 
 
     }
-
-
-
     override fun onSaveInstanceState(outState: Bundle?) {
         outState!!.putBoolean("edit", isEditMode)
         super.onSaveInstanceState(outState)
@@ -96,6 +94,7 @@ class ProfileActivity : AppCompatActivity(){
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         viewModel.getProfileData().observe(this, Observer { updateUI(it) })
         viewModel.getTheme().observe(this, Observer { updateTheme(it) })
+
     }
 
     private fun updateTheme(mode: Int) {

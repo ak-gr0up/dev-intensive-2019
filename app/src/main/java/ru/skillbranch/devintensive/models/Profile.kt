@@ -1,6 +1,7 @@
 package ru.skillbranch.devintensive.models
 
 import kotlinx.android.synthetic.main.activity_profile_constraint.*
+import ru.skillbranch.devintensive.utils.Utils
 
 data class Profile
 (
@@ -24,5 +25,11 @@ data class Profile
         "respect" to respect,
         "repository" to repository
     )
+
+
+
+    fun nickName(firstName: String, lastName:String): String = "${Utils.transliteration(firstName)}_${Utils.transliteration(lastName)}"
+
+
 
 }

@@ -4,7 +4,7 @@
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
-                                                   android:background="@color/color_gray_dark">
+                                                    android:theme="@style/AppTheme">
 
 
     <ImageView
@@ -169,7 +169,8 @@
                 android:id="@+id/et_about"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/profile_hint_about" android:text="Something"/>
+                android:hint="@string/profile_hint_about"
+                style="@style/Profile.EditText.MultiLine" />
     </com.google.android.material.textfield.TextInputLayout>
     <View
             android:layout_width="0dp"

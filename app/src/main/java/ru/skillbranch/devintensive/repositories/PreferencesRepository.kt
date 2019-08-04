@@ -31,9 +31,9 @@ object PreferencesRepository {
 
     )
 
-    fun saveProfile(profile: Profile?){
+    fun saveProfile(profile: Profile){
         with(profile){
-            putValue(FIRST_NAME to this!!.firstName)
+            putValue(FIRST_NAME to firstName)
             putValue(LAST_NAME to lastName)
             putValue(ABOUT to about)
             putValue(RATING to rating)
@@ -53,5 +53,6 @@ object PreferencesRepository {
             is Float -> putFloat(key, value)
             else -> error("Only primitive types can be stored in Shared Preferences")
         }
+        apply()
     }
 }

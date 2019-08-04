@@ -11,7 +11,8 @@ class ProfileViewModel : ViewModel(){
     val profileData = MutableLiveData<Profile>()
 
     init {
-        profileData.value = repository.getProfile()
+        var temp = repository.getProfile()
+        profileData.value = temp
     }
 
     fun getProfileData():LiveData<Profile> = profileData

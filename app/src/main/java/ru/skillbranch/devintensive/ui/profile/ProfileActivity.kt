@@ -46,6 +46,7 @@ class ProfileActivity : AppCompatActivity(){
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_constraint)
         initViews(savedInstanceState)
@@ -87,7 +88,6 @@ class ProfileActivity : AppCompatActivity(){
             viewModel.switchTheme()
         }
     }
-
 
 
     private fun initViewModel(){

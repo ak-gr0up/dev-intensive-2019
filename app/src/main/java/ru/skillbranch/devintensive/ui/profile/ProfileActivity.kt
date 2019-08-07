@@ -66,6 +66,46 @@ class ProfileActivity : AppCompatActivity(){
 
     }
 
+    fun noError(Github: String) : Boolean{
+        var github: String = Github
+        if (github == "") return false
+
+        val dropGithub: Int
+
+        if (github.startsWith("https://github.com/")){
+            dropGithub = 19
+        }
+        else if (github.startsWith("www.github.com/")){
+            dropGithub = 15
+        }
+        else if (github.startsWith("https://www.github.com/")){
+            dropGithub = 23
+        }
+        else
+            return false
+
+        github = github.drop(dropGithub)
+
+        return (
+                github != "enterprise" &&
+                github != "features" &&
+                github != "topics" &&
+                github != "collections" &&
+                github != "trending" &&
+                github != "events" &&
+                github != "marketplace" &&
+                github != "pricing" &&
+                github != "nonprofit" &&
+                github != "customer-stories" &&
+                github != "security" &&
+                github != "login" &&
+                github != "join" &&
+                "/" !in github &&
+                "." !in github
+                )
+
+    }
+
     private fun initViews(savedInstanceState: Bundle?){
         viewFields = mapOf(
             "nickname" to tv_nick_name,
@@ -78,8 +118,23 @@ class ProfileActivity : AppCompatActivity(){
             "repository" to et_repository
         )
 
+        var githubSaveOrNot: Boolean = true
+
+        et_repository.setOnClickListener {
+            githubSaveOrNot = noError(et_repository.text.toString())
+            if (!githubSaveOrNot)
+                wr_repository.setError("Невалидный адрес репозитория")
+
+        }
+
         btn_edit.setOnClickListener{
-            if (isEditMode) saveProfileInfo()
+            if (isEditMode) {
+                if (!githubSaveOrNot)
+                    et_repository.setText("")
+                saveProfileInfo()
+            }
+            else
+                wr_repository.setErrorEnabled(false)
             isEditMode = !isEditMode
             showCurrentMode(isEditMode)
         }
@@ -87,6 +142,7 @@ class ProfileActivity : AppCompatActivity(){
         btn_switch_theme.setOnClickListener{
             viewModel.switchTheme()
         }
+
     }
 
 

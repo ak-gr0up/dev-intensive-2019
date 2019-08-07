@@ -133,8 +133,9 @@ class ProfileActivity : AppCompatActivity(){
                     et_repository.setText("")
                 saveProfileInfo()
             }
-            else
-                wr_repository.setErrorEnabled(false)
+
+            wr_repository.setErrorEnabled(false)
+
             isEditMode = !isEditMode
             showCurrentMode(isEditMode)
         }

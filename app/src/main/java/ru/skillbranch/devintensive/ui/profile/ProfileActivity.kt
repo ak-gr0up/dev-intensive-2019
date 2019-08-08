@@ -5,6 +5,8 @@ import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -120,12 +122,35 @@ class ProfileActivity : AppCompatActivity(){
 
         var githubSaveOrNot: Boolean = true
 
-        et_repository.setOnClickListener {
-            githubSaveOrNot = noError(et_repository.text.toString())
-            if (!githubSaveOrNot)
-                wr_repository.setError("Невалидный адрес репозитория")
+        et_repository.addTextChangedListener(object : TextWatcher {
 
-        }
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                wr_repository.isErrorEnabled = !noError(s.toString())
+
+                if (!noError(s.toString())){
+                    wr_repository.error = "Невалидный адрес репозитория"
+                    githubSaveOrNot = false
+                }
+            }
+
+
+
+        })
+
+
 
         btn_edit.setOnClickListener{
             if (isEditMode) {

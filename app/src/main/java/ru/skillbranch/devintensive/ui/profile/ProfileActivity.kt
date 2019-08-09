@@ -144,6 +144,8 @@ class ProfileActivity : AppCompatActivity(){
                     wr_repository.error = "Невалидный адрес репозитория"
                     githubSaveOrNot = false
                 }
+                else
+                    githubSaveOrNot = true
             }
 
 

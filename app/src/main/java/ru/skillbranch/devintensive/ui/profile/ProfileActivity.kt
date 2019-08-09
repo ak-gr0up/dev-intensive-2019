@@ -106,8 +106,7 @@ class ProfileActivity : AppCompatActivity(){
                 github != "security" &&
                 github != "login" &&
                 github != "join" &&
-                "/" !in github &&
-                "." !in github
+                "/" !in github
                 )
 
     }

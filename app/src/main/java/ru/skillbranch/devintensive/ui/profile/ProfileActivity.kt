@@ -58,9 +58,11 @@ class ProfileActivity : AppCompatActivity(){
             isEditMode = mode
             showCurrentMode(isEditMode)
         }
+        wr_repository.setErrorEnabled(false)
 
 
     }
+
     override fun onSaveInstanceState(outState: Bundle?) {
         outState!!.putBoolean("edit", isEditMode)
         super.onSaveInstanceState(outState)
@@ -69,8 +71,10 @@ class ProfileActivity : AppCompatActivity(){
     }
 
     fun noError(Github: String) : Boolean{
+       if (Github == "")
+           return true
+
         var github: String = Github
-        if (github == "") return false
 
         val dropGithub: Int
 
@@ -123,29 +127,26 @@ class ProfileActivity : AppCompatActivity(){
         var githubSaveOrNot: Boolean = true
 
         et_repository.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
 
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-
-
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-                wr_repository.isErrorEnabled = !noError(s.toString())
+                wr_repository.setErrorEnabled(!noError(s.toString()))
+                Log.d("M_error", "error disabled/enabled in the text change  - $s")
+
 
                 if (!noError(s.toString())){
                     wr_repository.error = "Невалидный адрес репозитория"
                     githubSaveOrNot = false
                 }
-                else
+                else{
                     githubSaveOrNot = true
+                    wr_repository.setErrorEnabled(false)
+                    Log.d("M_error", "error disabled")
+                }
+
             }
 
 
@@ -157,11 +158,11 @@ class ProfileActivity : AppCompatActivity(){
         btn_edit.setOnClickListener{
             if (isEditMode) {
                 if (!githubSaveOrNot)
-                    et_repository.setText("")
+                    et_repository.setText(null)
                 saveProfileInfo()
             }
-
-            wr_repository.setErrorEnabled(false)
+            wr_repository.isErrorEnabled = false
+            Log.d("M_error", "error disabled")
 
             isEditMode = !isEditMode
             showCurrentMode(isEditMode)

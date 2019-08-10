@@ -71,7 +71,6 @@ class ProfileActivity : AppCompatActivity(){
     }
 
     fun noError(Github: String) : Boolean{
-        wr_repository.error = Github
        if (Github == "")
            return true
 
@@ -87,6 +86,9 @@ class ProfileActivity : AppCompatActivity(){
         }
         else if (github.startsWith("https://www.github.com/")){
             dropGithub = 23
+        }
+        else if (github.startsWith("github.com/")){
+            dropGithub = 11
         }
         else
             return false
@@ -139,7 +141,7 @@ class ProfileActivity : AppCompatActivity(){
 
 
                 if (!noError(s.toString())){
-                    //wr_repository.error = "Невалидный адрес репозитория"
+                    wr_repository.error = "Невалидный адрес репозитория"
                     githubSaveOrNot = false
                 }
                 else{

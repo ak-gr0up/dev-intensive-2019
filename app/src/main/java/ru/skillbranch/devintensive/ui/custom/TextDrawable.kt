@@ -2,15 +2,17 @@ package ru.skillbranch.devintensive.ui.custom
 
 
 
+import android.content.Context
 import android.graphics.*
 
 import android.graphics.drawable.Drawable
+import android.util.TypedValue
+import androidx.annotation.AttrRes
+import ru.skillbranch.devintensive.App
+import ru.skillbranch.devintensive.R
 
 
-
-
-
-class TextDrawable : Drawable() {
+class TextDrawable(val bgColor: Int=Color.BLACK) : Drawable() {
 
     var text: String = ""
 
@@ -30,19 +32,22 @@ class TextDrawable : Drawable() {
 
         textAlign = Paint.Align.CENTER
 
-    }
+        alpha = 255
 
+    }
 
 
     override fun draw(canvas: Canvas) {
 
-        if (text.isBlank()) return
+        canvas.drawCircle(
 
-        canvas.drawRect(
+            bounds.centerX().toFloat(),
 
-            bounds,
+            bounds.centerY().toFloat(),
 
-            paint.apply { color = backgroundColor }
+            (bounds.width() / 2).toFloat(),
+
+            paint.apply { color = bgColor; alpha = 255 }
 
         )
 

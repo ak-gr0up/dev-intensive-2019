@@ -1,9 +1,6 @@
 package ru.skillbranch.devintensive.ui.profile
 
-import android.graphics.Color
-import android.graphics.ColorFilter
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
+import android.graphics.*
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,6 +12,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
@@ -34,7 +32,15 @@ import ru.skillbranch.devintensive.extensions.hideKeyboard
 import ru.skillbranch.devintensive.models.Bender
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.ui.custom.TextDrawable
 import ru.skillbranch.devintensive.utils.Utils
+import android.R.attr.data
+import android.content.Context
+import androidx.annotation.ColorInt
+import android.content.res.Resources.Theme
+import android.util.TypedValue
+import kotlin.jvm.internal.Ref
+
 
 class ProfileActivity : AppCompatActivity(){
     companion object{
@@ -48,9 +54,9 @@ class ProfileActivity : AppCompatActivity(){
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme)
+        setTheme(ru.skillbranch.devintensive.R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile_constraint)
+        setContentView(ru.skillbranch.devintensive.R.layout.activity_profile_constraint)
         initViews(savedInstanceState)
         initViewModel()
         val mode = savedInstanceState?.getBoolean("edit")
@@ -59,6 +65,7 @@ class ProfileActivity : AppCompatActivity(){
             showCurrentMode(isEditMode)
         }
         wr_repository.setErrorEnabled(false)
+
 
 
     }
@@ -115,6 +122,20 @@ class ProfileActivity : AppCompatActivity(){
 
     }
 
+    fun getColorTheme(view: View, color: Int) : Int{
+        val typedValue = TypedValue()
+        val theme = view.context.theme
+        theme.resolveAttribute(color, typedValue, true)
+        return typedValue.data
+    }
+
+    fun refreshAvatar(){
+        val userAvatar = TextDrawable(getColorTheme(iv_avatar, R.attr.colorAccent))
+        val initials = Utils.toInitials(et_first_name.text.toString(), et_last_name.text.toString())
+        userAvatar.text = when(initials){null -> "" else -> initials}
+        iv_avatar.setImageDrawable(userAvatar)
+    }
+
     private fun initViews(savedInstanceState: Bundle?){
         viewFields = mapOf(
             "nickname" to tv_nick_name,
@@ -130,7 +151,7 @@ class ProfileActivity : AppCompatActivity(){
         var githubSaveOrNot: Boolean = true
 
         et_repository.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) { refreshAvatar()           }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -147,7 +168,6 @@ class ProfileActivity : AppCompatActivity(){
                 else{
                     githubSaveOrNot = true
                     wr_repository.setErrorEnabled(false)
-                    Log.d("M_error", "error disabled")
                 }
 
             }
@@ -163,6 +183,7 @@ class ProfileActivity : AppCompatActivity(){
                 if (!githubSaveOrNot)
                     et_repository.setText(null)
                 saveProfileInfo()
+                refreshAvatar()
             }
             wr_repository.isErrorEnabled = false
             Log.d("M_error", "error disabled")
@@ -173,6 +194,7 @@ class ProfileActivity : AppCompatActivity(){
 
         btn_switch_theme.setOnClickListener{
             viewModel.switchTheme()
+            //refreshAvatar()
         }
 
     }
@@ -219,7 +241,11 @@ class ProfileActivity : AppCompatActivity(){
         ic_eye.visibility = if(isEdit) View.GONE else View.VISIBLE
         with(btn_edit){
             val filter: ColorFilter? = if(isEdit){
-            PorterDuffColorFilter(resources.getColor(R.color.color_accent, theme),
+
+                val accentedColor = getColorTheme(this, R.attr.colorAccent)
+
+            PorterDuffColorFilter(
+                accentedColor,
             PorterDuff.Mode.SRC_IN)
         }
             else
@@ -227,9 +253,9 @@ class ProfileActivity : AppCompatActivity(){
 
 
         val icon = if (isEdit)
-            resources.getDrawable(R.drawable.ic_save_black_24dp, theme)
+            resources.getDrawable(ru.skillbranch.devintensive.R.drawable.ic_save_black_24dp, theme)
         else
-            resources.getDrawable(R.drawable.ic_edit_black_24dp, theme)
+            resources.getDrawable(ru.skillbranch.devintensive.R.drawable.ic_edit_black_24dp, theme)
 
             background.colorFilter = filter
         setImageDrawable(icon)

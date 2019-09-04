@@ -13,7 +13,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile_constraint.*
@@ -39,6 +38,7 @@ import android.content.Context
 import androidx.annotation.ColorInt
 import android.content.res.Resources.Theme
 import android.util.TypedValue
+import java.util.Observer
 import kotlin.jvm.internal.Ref
 
 
@@ -202,8 +202,8 @@ class ProfileActivity : AppCompatActivity(){
 
     private fun initViewModel(){
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
-        viewModel.getProfileData().observe(this, Observer { updateUI(it) })
-        viewModel.getTheme().observe(this, Observer { updateTheme(it) })
+        viewModel.getProfileData().observe(this, androidx.lifecycle.Observer { updateUI(it) })
+        viewModel.getTheme().observe(this, androidx.lifecycle.Observer { updateTheme(it) })
 
     }
 
